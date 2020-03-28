@@ -17,7 +17,7 @@ namespace WebAssembly
             {
                 // Configure your authentication provider options here.
                 // For more information, see https://aka.ms/blazor-standalone-auth
-                options.ProviderOptions.Authority = "http://localhost:44399/";
+                options.ProviderOptions.Authority = "https://localhost:44399/";
                 options.ProviderOptions.ClientId = "blazor";
                 options.ProviderOptions.DefaultScopes = new List<string> { "openid", "profile", "weatherapi" };
                 options.ProviderOptions.PostLogoutRedirectUri = "/";

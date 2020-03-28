@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WeatherApi
 {
@@ -31,9 +32,13 @@ namespace WeatherApi
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => 
                 {
-                    options.Authority = "http://localhost:44399";
+                    options.Authority = "https://localhost:44399";
                     options.Audience = "weatherapi";
                     options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        NameClaimType = "name"
+                    };
                 });
 
             services.AddControllers();
