@@ -23,8 +23,8 @@ namespace WebAssembly
                 .AddHttpMessageHandler(sp => 
                 {
                     var handler = sp.GetRequiredService<AuthorizationMessageHandler>()
-                        .ConfigureHandler(new[] { "https://localhost:5002" }, 
-                        scopes: new[] { "weatherapi" });
+                        .ConfigureHandler(new[] { "https://localhost:5002" },
+                        scopes: new[] { "https://BlazorB2C.onmicrosoft.com/49a5ea34-2ea6-42bb-9ed4-6076e169b1fc/Api.Access" });
 
                     return handler;
                 });
@@ -36,9 +36,9 @@ namespace WebAssembly
                 return factory.CreateClient("weatherapi");
             });
 
-            builder.Services.AddOidcAuthentication(options =>
+            builder.Services.AddMsalAuthentication(options =>
             {
-                builder.Configuration.Bind("Security", options.ProviderOptions);
+                builder.Configuration.Bind("Security", options.ProviderOptions.Authentication);
             });
 
             await builder.Build().RunAsync();

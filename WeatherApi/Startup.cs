@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 namespace WeatherApi
@@ -29,11 +31,15 @@ namespace WeatherApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var configManager = new ConfigurationManager<OpenIdConnectConfiguration>(
+                "https://blazorb2c.b2clogin.com/BlazorB2C.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_signupin", 
+                new OpenIdConnectConfigurationRetriever());
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => 
                 {
-                    options.Authority = "https://localhost:44399";
-                    options.Audience = "weatherapi";
+                    options.ConfigurationManager = configManager;
+                    options.Audience = "49a5ea34-2ea6-42bb-9ed4-6076e169b1fc";
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
