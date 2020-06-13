@@ -44,20 +44,18 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri("https://localhost:5002");
+        Console.WriteLine("Getting forecast");
 
-        var tokenResult = await this.TokenProvider.RequestAccessToken();
+        try
+        {
+            forecasts = await this.Http.GetFromJsonAsync<WeatherForecast[]>("https://localhost:5002/WeatherForecast");
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
 
-        if (tokenResult.TryGetToken(out var token))
-        {
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.Value}");
-            forecasts = await httpClient.GetJsonAsync<WeatherForecast[]>("WeatherForecast");
-        }
-        else
-        {
-            Console.WriteLine("No Token!");
-        }
+        Console.WriteLine($"got {forecasts?.Length} items back");
     }
 
     public class WeatherForecast
