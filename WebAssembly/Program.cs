@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
@@ -37,13 +38,7 @@ namespace WebAssembly
 
             builder.Services.AddOidcAuthentication(options =>
             {
-                // Configure your authentication provider options here.
-                // For more information, see https://aka.ms/blazor-standalone-auth
-                options.ProviderOptions.Authority = "https://localhost:44399/";
-                options.ProviderOptions.ClientId = "blazor";
-                options.ProviderOptions.DefaultScopes.Add("weatherapi");
-                options.ProviderOptions.PostLogoutRedirectUri = "/";
-                options.ProviderOptions.ResponseType = "code";
+                builder.Configuration.Bind("Security", options.ProviderOptions);
             });
 
             await builder.Build().RunAsync();
