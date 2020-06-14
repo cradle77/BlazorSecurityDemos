@@ -59,14 +59,6 @@ namespace ServerB2C
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseRewriter(new RewriteOptions().Add(context => 
-            { 
-                if (context.HttpContext.Request.Path == "/AzureADB2C/Account/SignedOut") 
-                { 
-                    context.HttpContext.Response.Redirect("/"); 
-                } 
-            }));
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -37,7 +37,7 @@ namespace IdentityProvider
                     RequirePkce = true,
                     RequireClientSecret = false,
                     AllowedCorsOrigins = { "https://localhost:5001" },
-                    AllowedScopes = { "openid", "profile", "weatherapi" },
+                    AllowedScopes = { "openid", "profile" },
                     RedirectUris = { "https://localhost:5001/authentication/login-callback" },
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
                     Enabled = true
