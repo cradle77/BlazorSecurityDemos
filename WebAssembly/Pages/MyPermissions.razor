@@ -1,0 +1,29 @@
+﻿@page "/mypermissions"
+@inject HttpClient Http
+@attribute [Authorize]
+
+@if (_permissions == null)
+{
+    <p>Loading permissions...</p>
+}
+else
+{
+    <p>You have the following permissions:</p>
+    <ul>
+        @foreach (var item in _permissions)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}
+
+
+@code{
+
+    private IEnumerable<string> _permissions;
+
+    protected async override Task OnInitializedAsync()
+    {
+        _permissions = await this.Http.GetFromJsonAsync<IEnumerable<string>>("https://localhost:5002/api/mypermissions");
+    }
+}

@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -39,8 +41,12 @@ namespace WebAssembly
             builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("Security", options.ProviderOptions);
-                //options.UserOptions.RoleClaim = "role";
-            });
+                options.UserOptions.RoleClaim = "role";
+            }).AddAccountClaimsPrincipalFactory<ArrayClaimsPrincipalFactory<RemoteUserAccount>>();
+
+            builder.Services.RemoveAll<IAuthorizationPolicyProvider>();
+
+            builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
             await builder.Build().RunAsync();
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Des.AspNetCore.Permissions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,8 @@ namespace WeatherApi
                     };
                 });
 
+            services.AddPermissionPolicies();
+
             services.AddControllers();
         }
 
@@ -66,6 +69,8 @@ namespace WeatherApi
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMyPermissions();
 
             app.UseEndpoints(endpoints =>
             {

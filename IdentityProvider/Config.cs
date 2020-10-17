@@ -15,8 +15,8 @@ namespace IdentityProvider
             {
                 new IdentityResources.OpenId(),
                 // we need to include the role claim in the profile
-                //new ProfileWithRoleIdentityResource(),
-                new IdentityResources.Profile(),
+                new ProfileWithRoleIdentityResource(),
+                //new IdentityResources.Profile(),
                 new IdentityResources.Email()
             };
 

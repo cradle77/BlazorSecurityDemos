@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WeatherApi.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -26,6 +24,7 @@ namespace WeatherApi.Controllers
         }
 
         [HttpGet]
+        [Authorize("CanSeeForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

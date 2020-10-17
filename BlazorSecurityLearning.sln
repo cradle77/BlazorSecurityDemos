@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherApi", "WeatherApi\We
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor Wasm", "Blazor Wasm", "{97B1EAFB-4705-48E6-92B1-6F50739043A7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Des.AspNetCore.Permissions", "Des.AspNetCore.Permissions\Des.AspNetCore.Permissions.csproj", "{CCA36E3F-B93F-4427-BD9E-4E5F50AD5D78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{9C0EA9C2-D8F9-4B05-859C-CA80AD8FAB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C0EA9C2-D8F9-4B05-859C-CA80AD8FAB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C0EA9C2-D8F9-4B05-859C-CA80AD8FAB5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCA36E3F-B93F-4427-BD9E-4E5F50AD5D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCA36E3F-B93F-4427-BD9E-4E5F50AD5D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCA36E3F-B93F-4427-BD9E-4E5F50AD5D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCA36E3F-B93F-4427-BD9E-4E5F50AD5D78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
