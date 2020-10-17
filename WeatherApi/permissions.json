@@ -5,7 +5,7 @@
         "role": [ "Captain", "FirstOfficer", "CabinCrewMember" ]
       }
     ],
-    "CanDoFlyAnAirplane": [
+    "CanFlyAnAirplane": [
       {
         "role": [ "Captain", "FirstOfficer" ],
         "bloodAlcoholLevel": "0"
@@ -14,6 +14,11 @@
     "CanSeeForecast": [
       {
         "role": [ "Admin" ]
+      }
+    ],
+    "CanUseCounter": [
+      {
+        "role": [ "User", "Admin" ]
       }
     ]
   }
