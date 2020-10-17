@@ -1,7 +1,7 @@
 ﻿@page "/fetchdata"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject HttpClient Http
-@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
 
 <h1>Weather forecast</h1>
 

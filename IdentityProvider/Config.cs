@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityModel;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -13,17 +14,22 @@ namespace IdentityProvider
             new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
+                // we need to include the role claim in the profile
+                //new ProfileWithRoleIdentityResource(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
 
 
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new ApiResource("weatherapi", "Weather API") 
-                {
-                    UserClaims = new [] { "name", "sub" }
-                }
+                new ApiResource("weatherapi", "Weather API", new[] 
+                { 
+                    JwtClaimTypes.Subject, 
+                    JwtClaimTypes.Name, 
+                    JwtClaimTypes.Role 
+                })
             };
 
 
@@ -37,7 +43,7 @@ namespace IdentityProvider
                     RequirePkce = true,
                     RequireClientSecret = false,
                     AllowedCorsOrigins = { "https://localhost:5001" },
-                    AllowedScopes = { "openid", "profile", "weatherapi" },
+                    AllowedScopes = { "openid", "profile", "email", "weatherapi" },
                     RedirectUris = { "https://localhost:5001/authentication/login-callback" },
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
                     Enabled = true

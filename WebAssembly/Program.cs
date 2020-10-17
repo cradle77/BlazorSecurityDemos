@@ -39,6 +39,7 @@ namespace WebAssembly
             builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("Security", options.ProviderOptions);
+                //options.UserOptions.RoleClaim = "role";
             });
 
             await builder.Build().RunAsync();
