@@ -42,6 +42,7 @@ namespace WebAssembly
             {
                 builder.Configuration.Bind("Security", options.ProviderOptions);
                 options.UserOptions.RoleClaim = "role";
+                options.ProviderOptions.PostLogoutRedirectUri = builder.HostEnvironment.BaseAddress;
             }).AddAccountClaimsPrincipalFactory<ArrayClaimsPrincipalFactory<RemoteUserAccount>>();
 
             builder.Services.RemoveAll<IAuthorizationPolicyProvider>();
