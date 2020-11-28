@@ -38,8 +38,6 @@ namespace WebAssembly
                         var token = await _tokenProvider.RequestAccessToken();
                         token.TryGetToken(out var tokenresult);
 
-                        Console.WriteLine($"token was {tokenresult.Value}");
-
                         return tokenresult.Value;
                     };
                 })
