@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using WebAssembly.Services;
 
 namespace WebAssembly
 {
@@ -48,6 +50,10 @@ namespace WebAssembly
             builder.Services.RemoveAll<IAuthorizationPolicyProvider>();
 
             builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            builder.Services.AddScoped<NetworkService>();
+
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddScoped<UserService>();
 
             await builder.Build().RunAsync();
         }

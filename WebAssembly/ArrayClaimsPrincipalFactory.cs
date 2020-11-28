@@ -8,17 +8,25 @@ using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WebAssembly.Services;
 
 namespace WebAssembly
 {
     public class ArrayClaimsPrincipalFactory<TAccount> : AccountClaimsPrincipalFactory<TAccount> where TAccount : RemoteUserAccount
     {
         private IHttpClientFactory _clientFactory;
+        private readonly NetworkService _networkService;
+        private readonly UserService _userService;
 
-        public ArrayClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor, IHttpClientFactory clientFactory)
+        public ArrayClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor, 
+            IHttpClientFactory clientFactory,
+            NetworkService networkService,
+            UserService userService)
         : base(accessor)
         {
             _clientFactory = clientFactory;
+            _networkService = networkService;
+            _userService = userService;
         }
 
 
@@ -27,6 +35,11 @@ namespace WebAssembly
         public async override ValueTask<ClaimsPrincipal> CreateUserAsync(TAccount account, RemoteAuthenticationUserOptions options)
         {
             var user = await base.CreateUserAsync(account, options);
+
+            if (!_networkService.IsOnline)
+            {
+                return await _userService.GetAsync();
+            }
 
             var claimsIdentity = (ClaimsIdentity)user.Identity;
 
@@ -57,6 +70,8 @@ namespace WebAssembly
                 Console.WriteLine($"I've retrieved {permissions.Count} permissions");
 
                 claimsIdentity.AddClaims(permissions);
+
+                await _userService.SetAsync(user);
             }
 
             return user;

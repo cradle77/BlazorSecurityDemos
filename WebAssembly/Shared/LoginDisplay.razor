@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-
+@inject NetworkService NetworkService
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 
@@ -12,7 +12,7 @@
         <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
     </Authorized>
     <NotAuthorized>
-        <a href="authentication/login">Log in</a>
+        <a href="@(this.NetworkService.IsOnline ? "authentication/login" : "#")">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -21,5 +21,12 @@
     {
         await SignOutManager.SetSignOutState();
         Navigation.NavigateTo("authentication/logout");
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        NetworkService.OnlineChanged += (s, e) => InvokeAsync(StateHasChanged);
     }
 }
