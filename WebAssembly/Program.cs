@@ -40,6 +40,7 @@ namespace WebAssembly
             {
                 builder.Configuration.Bind("Security", options.ProviderOptions);
                 //options.UserOptions.RoleClaim = "role";
+                options.ProviderOptions.PostLogoutRedirectUri = builder.HostEnvironment.BaseAddress;
             });
 
             await builder.Build().RunAsync();
