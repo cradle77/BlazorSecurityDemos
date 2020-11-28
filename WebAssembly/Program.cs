@@ -49,7 +49,15 @@ namespace WebAssembly
 
             builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
-            await builder.Build().RunAsync();
+            builder.Services.AddScoped<NotificationsManager>();
+
+            var host = builder.Build();
+
+            var notifications = host.Services.GetRequiredService<NotificationsManager>();
+
+            await notifications.InitializeAsync();
+            
+            await host.RunAsync();
         }
     }
 }

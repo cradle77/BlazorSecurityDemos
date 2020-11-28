@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Matching;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using WeatherApi.Hubs;
 
 namespace WeatherApi
 {
@@ -40,11 +42,20 @@ namespace WeatherApi
                     {
                         NameClaimType = "name"
                     };
+
+                    options.Events = new JwtBearerEvents();
+
+                    options.Events.OnAuthenticationFailed = async (arg) =>
+                    {
+                        string s = arg.ToString();
+                    };
                 });
 
             services.AddPermissionPolicies();
 
             services.AddControllers();
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +86,7 @@ namespace WeatherApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationsHub>("/hubs/notifications");
             });
         }
     }
