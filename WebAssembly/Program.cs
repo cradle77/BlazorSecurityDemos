@@ -22,6 +22,7 @@ namespace WebAssembly
                 options.ProviderOptions.ClientId = "blazor";
                 options.ProviderOptions.PostLogoutRedirectUri = "/";
                 options.ProviderOptions.ResponseType = "code";
+                options.ProviderOptions.PostLogoutRedirectUri = builder.HostEnvironment.BaseAddress;
             });
 
             await builder.Build().RunAsync();
