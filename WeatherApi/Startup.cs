@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using Des.AspNetCore.Permissions;
 using Microsoft.AspNetCore.Authentication;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Matching;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,16 +40,28 @@ namespace WeatherApi
                     options.Authority = "https://localhost:44399";
                     options.Audience = "weatherapi";
                     options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         NameClaimType = "name"
                     };
 
-                    options.Events = new JwtBearerEvents();
-
-                    options.Events.OnAuthenticationFailed = async (arg) =>
+                    options.Events = new JwtBearerEvents
                     {
-                        string s = arg.ToString();
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            // If the request is for our hub...
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("/hubs/notifications")))
+                            {
+                                // Read the token out of the query string
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
@@ -56,6 +70,8 @@ namespace WeatherApi
             services.AddControllers();
 
             services.AddSignalR();
+
+            services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
