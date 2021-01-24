@@ -6,9 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Des.AspNetCore.Permissions\Des.AspNetCore.Permissions.csproj" />
+    <PackageReference Include="Des.AspNetCore.Permissions" Version="1.0.0" />
   </ItemGroup>
 </Project>
